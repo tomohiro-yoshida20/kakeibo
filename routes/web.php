@@ -12,4 +12,11 @@
 */
 
 Auth::routes();
-Route::get('/', 'KakeiboController@index');
+Route::get('/', 'KakeiboController@index')->name('index');
+Route::post('/', 'KakeiboController@index')->name('index');
+
+// 同期処理でそのまま store
+Route::post('/income', 'KakeiboController@store')->name('kakeibo.add');
+
+// 非同期処理で delete
+Route::delete('/income/{income}', 'KakeiboController@destroy')->name('kakeibo.destroy');

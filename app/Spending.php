@@ -3,9 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Category;
 
-class Income extends Model
+class Spending extends Model
 {
     protected $fillable = [
         'category',

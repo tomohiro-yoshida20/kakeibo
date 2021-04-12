@@ -17,6 +17,9 @@
     @endguest
 
     @auth
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('login') }}">{{ Auth::user()->name }} さん</a>
+    </li>
     <!-- Dropdown -->
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
