@@ -1,10 +1,6 @@
 <template>
   <div class="total">
     <h3>当月の貯金額： {{ savingsMoney }} 円</h3>
-    <div v-show="totalMoney == 0">
-      まだ支出の登録がありません。<br>
-      ↓の追加ボックスから登録してください！
-    </div>
     <div class="line"></div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand navbar-dark peach-gradient">
 
-  <a class="navbar-brand" href="/"><i class="far fa-sticky-note mr-1"></i>かんたん家計簿</a>
+  <a class="navbar-brand" href="{{ route('index') }}"><i class="far fa-sticky-note mr-1"></i>かんたん家計簿</a>
 
   <ul class="navbar-nav ml-auto">
 

@@ -103,6 +103,7 @@ class KakeiboController extends Controller
     // 収入削除
     public function destroy(Income $income)
     {
+        dd($income);
         $income->delete();
         return redirect()->route('index');
     }
