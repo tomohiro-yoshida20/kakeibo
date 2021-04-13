@@ -6,28 +6,30 @@
   @include('nav')
   <div class="container">
 
+    <!-- ログインしていない場合 -->
     @guest
-      <!-- ログインしていない場合 -->
       <!-- システム説明 -->
       @include('kakeibo.info')
     @endguest
 
+    <!-- ログインしている場合 -->
     @auth
-      <!-- ログインしている場合 -->
+      <div class="mt-3">
+        <button class="btn peach-gradient" id="change_btn">収入⇔支出</button>
+      </div>
       <!-- 収支表 -->
-      @include('kakeibo.income')
+      <div class="" id="income_field">
+        @include('kakeibo.income')
+      </div>
       <!-- 支出表 -->
-      @include('kakeibo.spending')
+      <div class="none" id="spending_field">
+        @include('kakeibo.spending')
+      </div>
     @endauth
     
     @auth
-      <!-- お小遣い -->
+      <!-- 貯金 -->
       @include('kakeibo.pocket')
-    @endauth
-
-    @auth
-      <!-- 欲しいものリスト -->
-      @include('kakeibo.wants')
     @endauth
   </div>
 @endsection

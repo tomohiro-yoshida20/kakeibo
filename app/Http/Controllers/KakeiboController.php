@@ -45,6 +45,7 @@ class KakeiboController extends Controller
         ->where('month','=' , $session['month'])
         ->where('user_id', $request->user()->id)
         ->sortBy('day');
+        
         $spendings = Spending::all()
         ->where('year','=' , $session['year'])
         ->where('month','=' , $session['month'])
