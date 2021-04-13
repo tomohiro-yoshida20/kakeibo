@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Income;
+use App\Spending;
 use App\Category;
 use App\Http\Requests\AddRequest;
 
@@ -14,14 +15,25 @@ use Session;
 class KakeiboController extends Controller
 {
     // 初期表示
+    // public function home()
+    // {
+    //     return view('kakeibo.home');
+    // }
+
+    // 表示
     public function index(Request $request)
     {
-        // Session は空なら生成
-        $session = Session::all();
-        if (($session['year'] != null) && ($session['year'] != null)) {
-            Session::regenerate();
+        // リクエストが空ならログインがないためサービスtopへ
+        if (empty($request->user()->id)) {
+            return view('kakeibo.home');
         }
 
+        // request が空なら生成（ログイン時or更新時）
+        if (empty($request)) {
+            Session::regenerate();
+        }
+            
+        $session = Session::all();
         // 選択年月は セッションへ
         Session::put('year', $request['year'] ?? ($session['year'] ?? date('Y')));
         Session::put('month', $request['month'] ?? ($session['month'] ?? date('m')));
@@ -31,17 +43,31 @@ class KakeiboController extends Controller
         $incomes = Income::all()
         ->where('year','=' , $session['year'])
         ->where('month','=' , $session['month'])
+        ->where('user_id', $request->user()->id)
+        ->sortBy('day');
+        $spendings = Spending::all()
+        ->where('year','=' , $session['year'])
+        ->where('month','=' , $session['month'])
+        ->where('user_id','=' , $request->user()->id)
         ->sortBy('day');
         
-        // 格納順番を生成
+        // 収入格納順番を生成
         $i = 1;
         foreach($incomes as $income) {
             $income->number = $i;
             $i++;
         }
+        
+        // 支出格納順番を生成
+        $i = 1;
+        foreach($spendings as $spending) {
+            $spending->number = $i;
+            $i++;
+        }
 
         // セレクトボックス（カテゴリー） shubetsu:0 収入, shubetsu:1 支出
-        $categories = Category::all()->where('shubetsu','=','0')->sortBy('category_id');
+        $in_categories = Category::all()->where('shubetsu','=','0')->sortBy('category_id');
+        $sp_categories = Category::all()->where('shubetsu','=','1')->sortBy('category_id');
 
         // セレクトボックス（日付）
         $setYear = $session['year'];
@@ -54,7 +80,7 @@ class KakeiboController extends Controller
             array_push($days, $i);
         }
 
-        return view('kakeibo.home', ['incomes' => $incomes, 'categories' => $categories,'days' => $days, 'session' => $session]);
+        return view('kakeibo.home', ['incomes' => $incomes, 'spendings' => $spendings, 'in_categories' => $in_categories, 'sp_categories' => $sp_categories,'days' => $days, 'session' => $session]);
     }
 
     // 収入追加
@@ -77,6 +103,29 @@ class KakeiboController extends Controller
     public function destroy(Income $income)
     {
         $income->delete();
+        return redirect()->route('index');
+    }
+
+    // 支出追加
+    public function sp_store(AddRequest $request)
+    {
+        $session = Session::all();
+        $spending = new spending;
+        // ログインユーザーのID
+        $spending->user_id = $request->user()->id;
+        $spending->year = $session['year'];
+        $spending->month = $session['month'];
+        $spending->day = $request->day;
+        $spending->money = $request->money;
+        $spending->category = $request->category;
+        $spending->save();
+        return redirect()->route('index');
+    }
+
+    // 支出削除
+    public function sp_destroy(Spending $spending)
+    {
+        $spending->delete();
         return redirect()->route('index');
     }
 

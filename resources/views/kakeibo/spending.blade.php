@@ -1,5 +1,5 @@
 <!-- ログインしている場合 -->
-<!-- 収支表 -->
+<!-- 支出表 -->
 <div class="card mt-3">
   <div class="card-body">
     <div class="card mb-3">
@@ -29,45 +29,42 @@
     </div>
     <h2 class="card-title peach-gradient">
       <i class="fas fa-yen-sign fa-1x"></i>
-      家計簿
       {{ $session['year'] ?? date('Y') }}年
       {{ $session['month'] ?? date('m') }}月
-      収入一覧
+      支出一覧
     </h2>
 
-    <!-- $incomesはそのまま確認できないため 配列の個数 の存在チェック -->
+    <!-- 今月の支出合計 -->
+    <spending-total
+    :spendings="{{ $spendings }}"
+    ></spending-total>
 
-    <!-- 今月の収入合計 -->
-    <income-total
-    :incomes="{{ $incomes }}"
-    ></income-total>
-
-    <!-- 収入一覧 -->
+    <!-- 支出一覧 -->
     <table class="table">
       <thead>
         <tr>
           <th class="text-center">No</th>
           <th class="text-center">項目</th>
           <th class="text-center">金額</th>
-          <th class="text-center">収入日</th>
+          <th class="text-center">支出日</th>
           <th class="text-right">　</th>
         </tr>
       </thead>
       <tbody>
-        @foreach($incomes->all() as $income)
+        @foreach($spendings->all() as $spending)
         <tr>
-          <td class="text-center">{{ $income->number }}</td>
-          <td class="text-center">{{ $income->categoryName($income->category) }}</td>
-          <td class="text-center">{{ $income->money }}円</td>
-          <td class="text-center">{{ $income->day }}日</td>
+          <td class="text-center">{{ $spending->number }}</td>
+          <td class="text-center">{{ $spending->categoryName($spending->category) }}</td>
+          <td class="text-center">{{ $spending->money }}円</td>
+          <td class="text-center">{{ $spending->day }}日</td>
           <td class="text-right">
-            <button data-toggle="modal" data-target="#modal-delete-{{ $income->id }}" class="btn bg-secondary text-right text-white">
+            <button data-toggle="modal" data-target="#modal-sp-delete-{{ $spending->id }}" class="btn bg-secondary text-right text-white">
               <i class="fas fa-trash-alt mr-1"></i>削除
             </button>
           </td>
         </tr>
         <!-- modal -->
-        <div id="modal-delete-{{ $income->id }}" class="modal fade" tabindex="-1" role="dialog">
+        <div id="modal-sp-delete-{{ $spending->id }}" class="modal fade" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -75,7 +72,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="{{ route('kakeibo.destroy', ['income' => $income]) }}" method="POST">
+              <form action="{{ route('kakeibo.sp_destroy', ['spending' => $spending]) }}" method="POST">
               @csrf
               @method('DELETE')
                 <div class="modal-body">
@@ -93,14 +90,14 @@
         @endforeach
       </tbody>
     </table>
-    <!-- 収入一覧ここまで -->
+    <!-- 支出一覧ここまで -->
 
-    <!-- 収入追加ボックス -->
+    <!-- 支出追加ボックス -->
     <div class="card mt-3">
-      <form action="{{ route('kakeibo.add') }}" method="post">
+      <form action="{{ route('kakeibo.sp_add') }}" method="post">
         @csrf
         <div class="card-body">
-          <h4>＋収入追加</h4>
+          <h4>＋支出追加</h4>
           @if($errors->any())
             @foreach($errors->all() as $error)
               <span style="color: tomato;">・ {{ $error }}</span><br>
@@ -110,7 +107,7 @@
             <div class="col-3">
               <select class="form-select" name="category">
                 <option value="" selected>-項目-</option>
-                @foreach($categories as $category)
+                @foreach($sp_categories as $category)
                 <option value="{{ $category->category_id }}">
                   {{ $category->name }}
                 </option>

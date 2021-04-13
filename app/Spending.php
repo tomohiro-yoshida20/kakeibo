@@ -13,7 +13,7 @@ class Spending extends Model
     ];
 
     // 
-    public function income(): BelongsTo
+    public function spending(): BelongsTo
     {
         return $this->belongsTo('App\User');
     }
@@ -21,6 +21,6 @@ class Spending extends Model
     // カテゴリーIDからカテゴリー名を取得
     public function categoryName($category_id)
     {
-        return Category::where('category_id','=',$category_id)->value('name');
+        return Category::where('category_id',$category_id)->where('shubetsu',1)->value('name');
     }
 }

@@ -1,5 +1,5 @@
 <!-- ログインしている場合 -->
-<!-- 収支表 -->
+<!-- 収入表 -->
 <div class="card mt-3">
   <div class="card-body">
     <div class="card mb-3">
@@ -29,13 +29,10 @@
     </div>
     <h2 class="card-title peach-gradient">
       <i class="fas fa-yen-sign fa-1x"></i>
-      家計簿
       {{ $session['year'] ?? date('Y') }}年
       {{ $session['month'] ?? date('m') }}月
       収入一覧
     </h2>
-
-    <!-- $incomesはそのまま確認できないため 配列の個数 の存在チェック -->
 
     <!-- 今月の収入合計 -->
     <income-total
@@ -110,7 +107,7 @@
             <div class="col-3">
               <select class="form-select" name="category">
                 <option value="" selected>-項目-</option>
-                @foreach($categories as $category)
+                @foreach($in_categories as $category)
                 <option value="{{ $category->category_id }}">
                   {{ $category->name }}
                 </option>
