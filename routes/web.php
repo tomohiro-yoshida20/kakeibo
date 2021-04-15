@@ -12,7 +12,6 @@
 */
 
 Auth::routes();
-// Route::get('/home', 'KakeiboController@home')->name('home');
 Route::get('/', 'KakeiboController@index')->name('index');
 Route::post('/', 'KakeiboController@index')->name('index');
 

@@ -40,3 +40,30 @@
 .none {
   display: none;
 }
+
+.del_modal {
+  position: fixed;
+  display: table;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.8);
+  -webkit-transition: all .5s;
+  transition: all .5s;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 100;
+}
+
+.open {
+  -webkit-transition: all .5s;
+  transition: all .5s;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* 544px以上で6列幅のボックス */
+@media (min-width: 544px) {
+  
+}

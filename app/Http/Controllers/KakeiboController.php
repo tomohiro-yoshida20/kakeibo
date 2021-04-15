@@ -27,12 +27,7 @@ class KakeiboController extends Controller
         if (empty($request->user()->id)) {
             return view('kakeibo.home');
         }
-
-        // request が空なら生成（ログイン時or更新時）
-        if (empty($request)) {
-            Session::regenerate();
-        }
-            
+        
         $session = Session::all();
         // 選択年月は セッションへ
         Session::put('year', $request['year'] ?? ($session['year'] ?? date('Y')));
@@ -43,13 +38,11 @@ class KakeiboController extends Controller
         $incomes = Income::all()
         ->where('year','=' , $session['year'])
         ->where('month','=' , $session['month'])
-        ->where('user_id', $request->user()->id)
         ->sortBy('day');
         
         $spendings = Spending::all()
         ->where('year','=' , $session['year'])
         ->where('month','=' , $session['month'])
-        ->where('user_id','=' , $request->user()->id)
         ->sortBy('day');
         
         // 収入格納順番を生成
@@ -103,7 +96,6 @@ class KakeiboController extends Controller
     // 収入削除
     public function destroy(Income $income)
     {
-        dd($income);
         $income->delete();
         return redirect()->route('index');
     }

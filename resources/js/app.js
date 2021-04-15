@@ -21,3 +21,10 @@ change_btn.addEventListener('click', () => {
   income_field.classList.toggle('none');
   spending_field.classList.toggle('none');
 })
+
+const del_btn = document.getElementById('del_btn');
+const del_modal = document.getElementById('del_modal');
+
+del_btn.addEventListener('click', () => {
+  del_modal.classList.add('open')
+})

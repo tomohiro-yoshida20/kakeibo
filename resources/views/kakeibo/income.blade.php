@@ -8,20 +8,20 @@
         <form action="{{ route('index') }}" method="post">
           @csrf
           <div class="row d-flex align-items-center">
-            <div class="col-3">
+            <div class="col-5 col-sm-3 ">
               <input type="number" class="form-control" name="year" value="{{ $session['year'] ?? date('Y') }}" min="2020">
             </div>
-            <div class="col-1 y">
+            <div class="col-1 col-sm-1 pl-0">
               年
             </div>
-            <div class="col-3">
+            <div class="col-5 col-sm-3">
               <input type="number" class="form-control" name="month" value="{{ $session['month'] ?? date('m') }}" min="1" max="12">
             </div>
-            <div class="col-1">
+            <div class="col-1 col-sm-1 pl-0">
               月
             </div>
-            <div class="col-4 text-right">
-              <button type="submit" class="btn bg-secondary text-white">Go</button>
+            <div class="col-4 offset-sm-1 col-sm-3 text-right mt-1">
+              <button type="submit" class="btn bg-secondary text-white btn-block">⇒ Go&nbsp;</button>
             </div>
           </div>
         </form>
@@ -29,8 +29,8 @@
     </div>
     <h2 class="card-title peach-gradient">
       <i class="fas fa-yen-sign fa-1x"></i>
-      {{ $session['year'] ?? date('Y') }}年
-      {{ $session['month'] ?? date('m') }}月
+      {{ $session['year'] }}年
+      {{ $session['month'] }}月
       収入一覧
     </h2>
 
@@ -57,8 +57,8 @@
           <td class="text-center">{{ $income->categoryName($income->category) }}</td>
           <td class="text-center">{{ $income->money }}円</td>
           <td class="text-center">{{ $income->day }}日</td>
-          <td class="text-right">
-            <button data-toggle="modal" data-target="#modal-delete-{{ $income->id }}" class="btn bg-secondary text-right text-white">
+          <td class="text-right pt-1">
+            <button data-toggle="modal" data-target="#modal-delete-{{ $income->id }}" class="btn bg-secondary text-white">
               <i class="fas fa-trash-alt mr-1"></i>削除
             </button>
           </td>
@@ -104,7 +104,7 @@
             @endforeach
           @endif
           <div class="row mt-2">
-            <div class="col-3">
+            <div class="col-4 col-sm-3 mt-2">
               <select class="form-select" name="category">
                 <option value="" selected>-項目-</option>
                 @foreach($in_categories as $category)
@@ -114,7 +114,7 @@
                 @endforeach
               </select>
             </div>
-            <div class="col-3">
+            <div class="col-4 col-sm-3 mt-2">
               <select class="form-select" name="day">
                 <option value="">-日付-</option>
                 @foreach($days as $day)
@@ -124,12 +124,12 @@
                 @endforeach
               </select>
             </div>
-            <div class="col-3">
+            <div class="col-4 col-sm-3 mt-2">
               <input type="number" class="form-control" min="1" name="money" placeholder="-金額-" value="{{ old('money') }}">
             </div>
             <!-- 認証ユーザーを取得する -->
             <input type="hidden" name="user" value="{{ Auth::user() }}">
-            <div class="col-3">
+            <div class="col-4 col-sm-3 mt-1">
               <button type="submit" class="btn btn-block peach-gradient"> 
                 追加
               </button>
