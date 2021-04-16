@@ -7,21 +7,21 @@
         <!-- 年月の入力フォーム -->
         <form action="{{ route('index') }}" method="post">
           @csrf
-          <div class="row d-flex align-items-center">
-            <div class="col-5 col-sm-3">
+          <div class="row mt-2 align-items-center">
+            <div class="col-4 col-sm-3 mt-2">
               <input type="number" class="form-control" name="year" value="{{ $session['year'] ?? date('Y') }}" min="2020">
             </div>
-            <div class="col-1 col-sm-1 pl-0">
+            <div class="col-2 col-sm-1 mt-2">
             年
             </div>
-            <div class="col-5 col-sm-3">
-              <input type="number" class="form-control" name="month" value="{{ $session['month'] ?? date('m') }}" min="1" max="12">
+            <div class="col-4 col-sm-3 mt-2">
+            <input type="number" class="form-control" name="month" value="{{ $session['month'] ?? date('m') }}" min="1" max="12">
             </div>
-            <div class="col-1 col-sm-1 pl-0">
-              月
+            <div class="col-2 col-sm-1 mt-1">
+            月
             </div>
-            <div class="col-4 offset-sm-1 col-sm-3 text-right mt-1">
-              <button type="submit" class="btn bg-secondary text-white btn-block">⇒ Go&nbsp;</button>
+            <div class="col-4 col-sm-3 mt-2 offset-sm-1">
+              <button type="submit" class="btn btn-block peach-gradient pl-0 m-0">⇒ Go&nbsp;</button>
             </div>
           </div>
         </form>
